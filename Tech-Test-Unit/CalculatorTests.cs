@@ -130,5 +130,23 @@ namespace Tech_Test_Unit
             Assert.AreEqual(expected, response);
         }
 
+        [Test]
+        public void Check_if_user_input_simple_plus()
+        {
+            //arrange
+            var calculator = new Calculators(new List<double>() { 2, 4, 5 }, Operators.SUM);
+            var expected = 11;
+
+            var service = new CalculatorService();
+
+            //act
+
+            var response = service.DefineWichCommand(calculator);
+
+            //assert
+
+            Assert.AreEqual(expected, response);
+        }
+
     }
 }
