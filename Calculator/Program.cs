@@ -54,14 +54,21 @@ namespace Tech_Teste_Calculator
                     else if (string.Equals("S", operationType, StringComparison.InvariantCultureIgnoreCase))
                     {
 
-                        Console.WriteLine("Would operation would you like: Sum (0) , Subtract (1) , Multiply (2) or Divider (3) ");
+                        Console.WriteLine("Would operation would you like: Sum (+) , Subtract (-) , Multiply (*) or Divider (/) ");
 
                         var operatorInput = Console.ReadLine();
                         var definedOperator = default(Operators);
 
                         Console.ForegroundColor = ConsoleColor.Yellow;
 
-                        if (!Enum.IsDefined(typeof(Operators), int.Parse(operatorInput)))
+                        var hashOperators = new Dictionary<string, Operators>(StringComparer.InvariantCultureIgnoreCase) {
+                            { Operators.SUM.Value, Operators.SUM },
+                            { Operators.SUBTRACT.Value,Operators.SUBTRACT },
+                            { Operators.DIVIDER.Value,Operators.DIVIDER},
+                            { Operators.MULTIPLY.Value,Operators.MULTIPLY }
+                        };
+
+                        if (!hashOperators.ContainsKey(operatorInput))
                         {
                             Console.WriteLine(" ");
 
@@ -73,7 +80,7 @@ namespace Tech_Teste_Calculator
                             continue;
                         }
 
-                        definedOperator = (Operators)int.Parse(operatorInput);
+                        definedOperator = hashOperators[operatorInput];
 
                         Console.WriteLine(" ");
                         Console.WriteLine("If you want to stop typing, press ';' ");

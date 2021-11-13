@@ -15,7 +15,7 @@ namespace Tech_Teste_Calculator.Domain
                 throw new ArgumentNullException(nameof(calculator));
             }
 
-            if (calculator.OperatorCommands == Operators.PRECEDENCE)
+            if (calculator.OperatorCommands.Value == Operators.PRECEDENCE.Value)
             {
                 calculator.ExecuteAdvancedExpression();
             }

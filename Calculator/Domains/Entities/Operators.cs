@@ -1,12 +1,17 @@
 ﻿
 namespace Tech_Teste_Calculator.Domain.Entities
 {
-    public enum Operators
+    public class Operators
     {
-        SUM = 0,
-        SUBTRACT = 1,
-        MULTIPLY = 2,
-        DIVIDER = 3,
-        PRECEDENCE = 4
+        private Operators(string value) { Value = value; }
+
+        public string Value { get; private set; }
+
+        public static Operators SUM { get { return new Operators("+"); } }
+        public static Operators SUBTRACT { get { return new Operators("-"); } }
+        public static Operators MULTIPLY { get { return new Operators("*"); } }
+        public static Operators DIVIDER { get { return new Operators("/"); } }
+        public static Operators PRECEDENCE { get { return new Operators("P"); } }
     }
+
 }

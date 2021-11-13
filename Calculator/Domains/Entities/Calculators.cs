@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Z.Expressions;
 
 namespace Tech_Teste_Calculator.Domain.Entities
 {
     public class Calculators
     {
-        private Dictionary<Operators, Action> OperatorsCatalog => new()
+        private Dictionary<string, Func<List<double>, double>> OperatorsPrecendence => new(StringComparer.InvariantCultureIgnoreCase)
         {
-            { Operators.SUM, () => Sum() },
-            { Operators.SUBTRACT, () => Subtract() },
-            { Operators.MULTIPLY, () => Multiply() },
-            { Operators.DIVIDER, () => Divider() }
+            { Operators.SUM.Value, (List<double> parameters) => Sum(parameters) },
+            { Operators.SUBTRACT.Value, (List<double> parameters) => Subtract(parameters) },
+            { Operators.MULTIPLY.Value, (List<double> parameters) => Multiply(parameters) },
+            { Operators.DIVIDER.Value, (List<double> parameters) => Divider(parameters) }
         };
+
 
         public Calculators(string expression)
         {
@@ -43,18 +43,18 @@ namespace Tech_Teste_Calculator.Domain.Entities
             OperatorCommands = operatorCommand;
         }
 
-        public List<double> Values { get; }
+        public List<double> Values { get; private set; }
 
         public double Result { get; private set; }
 
-        public string PrecedenceExpression { get; }
+        public string PrecedenceExpression { get; private set; }
 
         public Operators OperatorCommands { get; }
 
 
         public void Execute()
         {
-            OperatorsCatalog[OperatorCommands].Invoke();
+            Result = OperatorsPrecendence[OperatorCommands.Value].Invoke(Values);
         }
 
         public void ExecuteAdvancedExpression()
@@ -65,16 +65,44 @@ namespace Tech_Teste_Calculator.Domain.Entities
                 throw new ArgumentNullException(nameof(PrecedenceExpression));
             }
 
-            Result = Eval.Execute<double>(PrecedenceExpression);
+            Result = RecursiveCalculatePrecendence(Precendence.PolishOrder(PrecedenceExpression));
         }
 
-        public void Sum() => Result = Values.Sum();
+        public double RecursiveCalculatePrecendence(Stack<string> ordered)
+        {
+            var actualVal = ordered.Pop();
 
-        public void Subtract() => Result = Values.Aggregate((f, l) => f - l);
+            double right;
 
-        public void Multiply() => Result = Values.Aggregate((f, l) => f * l);
+            if (!double.TryParse(actualVal, out double left))
+            {
+                right = RecursiveCalculatePrecendence(ordered);
 
-        public void Divider() => Result = Values.Aggregate((f, l) => f / l);
+                left = RecursiveCalculatePrecendence(ordered);
+
+                if (OperatorsPrecendence.ContainsKey(actualVal))
+                {
+                    left = OperatorsPrecendence[actualVal].Invoke(new List<double>() { left, right });
+                }
+                else
+                {
+                    throw new ArgumentException("This expression is not mapped yet.");
+                }
+            }
+
+            return left;
+        }
+
+
+        public double Sum(List<double> values) => values.Sum();
+
+        public double Subtract(List<double> values) => values.Aggregate((f, l) => f - l);
+
+        public double Multiply(List<double> values) => values.Aggregate((f, l) => f * l);
+
+        public double Divider(List<double> values) => values.Aggregate((f, l) => f / l);
 
     }
+
 }
+
