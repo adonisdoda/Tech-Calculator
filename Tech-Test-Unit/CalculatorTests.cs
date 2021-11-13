@@ -131,7 +131,7 @@ namespace Tech_Test_Unit
         }
 
         [Test]
-        public void Check_if_user_input_simple_plus()
+        public void execute_expression_user_input_sum()
         {
             //arrange
             var calculator = new Calculators(new List<double>() { 2, 4, 5 }, Operators.SUM);
