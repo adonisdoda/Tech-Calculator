@@ -1,6 +1,9 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using Tech_Teste_Calculator;
 using Tech_Teste_Calculator.Domain;
 using Tech_Teste_Calculator.Domain.Entities;
 
@@ -113,7 +116,7 @@ namespace Tech_Test_Unit
         }
 
         [Test]
-        public void Check_if_enter_in_precedence_operator()
+        public void Check_execute_precedence_operator()
         {
             //arrange
             var calculator = new Calculators("1+(3*4)");
@@ -146,6 +149,35 @@ namespace Tech_Test_Unit
             //assert
 
             Assert.AreEqual(expected, response);
+        }
+
+        [Test]
+        public void simulate_user_input_precendence_expression()
+        {
+            //arrange 
+            var stBuilder = new StringBuilder();
+
+            stBuilder.AppendLine("P");
+            stBuilder.AppendLine("2+1*(2-1)");
+            stBuilder.AppendLine("N");
+
+            var stReader = new StringReader(stBuilder.ToString());
+            Console.SetIn(stReader);
+
+            var sw = new StringWriter();
+            Console.SetOut(sw);
+
+            var expectedValue = 3;
+
+            //act
+
+            Program.Main(Array.Empty<string>());
+
+            var outputConsole = sw.ToString();
+
+            //assert
+
+            Assert.True(outputConsole.Contains($"Result is: {expectedValue}"));
         }
 
     }

@@ -8,9 +8,9 @@ using Tech_Teste_Calculator.Domain.Interfaces;
 
 namespace Tech_Teste_Calculator
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             var service = ConfigureServices();
 
@@ -158,12 +158,12 @@ namespace Tech_Teste_Calculator
                     Console.ReadKey();
                 }
             }
-
-
         }
 
+        private void ExecuteCalculate()
+        {
 
-
+        }
 
 
         //DI
