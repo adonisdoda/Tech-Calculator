@@ -11,7 +11,8 @@ namespace Tech_Teste_Calculator.Domain.Entities
             { Operators.SUM.Value, (List<double> parameters) => Sum(parameters) },
             { Operators.SUBTRACT.Value, (List<double> parameters) => Subtract(parameters) },
             { Operators.MULTIPLY.Value, (List<double> parameters) => Multiply(parameters) },
-            { Operators.DIVIDER.Value, (List<double> parameters) => Divider(parameters) }
+            { Operators.DIVIDER.Value, (List<double> parameters) => Divider(parameters) },
+            { Operators.PRECEDENCE.Value, (List<double> parameters) => Percent(parameters) }
         };
 
 
@@ -70,6 +71,11 @@ namespace Tech_Teste_Calculator.Domain.Entities
 
         public double RecursiveCalculatePrecendence(Stack<string> ordered)
         {
+            if (!ordered.Any())
+            {
+                return 0;
+            }
+
             var actualVal = ordered.Pop();
 
             double right;
@@ -101,6 +107,8 @@ namespace Tech_Teste_Calculator.Domain.Entities
         public double Multiply(List<double> values) => values.Aggregate((f, l) => f * l);
 
         public double Divider(List<double> values) => values.Aggregate((f, l) => f / l);
+
+        public double Percent(List<double> values) => values.Aggregate((f, l) => f % l);
 
     }
 

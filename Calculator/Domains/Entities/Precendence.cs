@@ -13,7 +13,7 @@ namespace Tech_Teste_Calculator.Domain.Entities
             var outStack = new Stack<string>();
             var tempStack = new Stack<string>();
 
-            var splited = Regex.Matches(expressions, @"\d+(?:[,.]\d+)*(?:e[-+]?\d+)?|[-^+*/()]|\w+", RegexOptions.IgnoreCase)
+            var splited = Regex.Matches(expressions, @"\d+(?:[,.]\d+)*(?:e[-+]?\d+)?|[-^+*/()%]|\w+", RegexOptions.IgnoreCase)
               .Cast<Match>()
               .Select(p => p.Value)
               .ToList();

@@ -158,7 +158,9 @@ namespace Tech_Test_Unit
             var stBuilder = new StringBuilder();
 
             stBuilder.AppendLine("P");
-            stBuilder.AppendLine("2+1*(2-1)");
+            //stBuilder.AppendLine("2+1*(2-1)");
+            //stBuilder.AppendLine("20%3");
+            stBuilder.AppendLine("-20+(-1)");
             stBuilder.AppendLine("N");
 
             var stReader = new StringReader(stBuilder.ToString());
