@@ -86,7 +86,7 @@ namespace Tech_Teste_Calculator.Domain.Entities
                 }
                 else
                 {
-                    throw new ArgumentException("This expression is not mapped yet.");
+                    throw new ArgumentException("This operator is not mapped yet.");
                 }
             }
 

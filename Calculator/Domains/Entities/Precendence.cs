@@ -20,24 +20,17 @@ namespace Tech_Teste_Calculator.Domain.Entities
 
             foreach (var character in splited)
             {
-                var parseCharac = character.ToString();
-
-                if (string.IsNullOrWhiteSpace(parseCharac))
-                {
-                    continue;
-                }
-
-                var isNumber = double.TryParse(parseCharac, out double n);
+                var isNumber = double.TryParse(character, out double n);
 
                 if (isNumber)
                 {
-                    outStack.Push(parseCharac);
+                    outStack.Push(character);
                 }
-                else if (parseCharac.Equals("(", StringComparison.InvariantCultureIgnoreCase))
+                else if (character.Equals("(", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    tempStack.Push(parseCharac);
+                    tempStack.Push(character);
                 }
-                else if (parseCharac.Equals(")", StringComparison.InvariantCultureIgnoreCase))
+                else if (character.Equals(")", StringComparison.InvariantCultureIgnoreCase))
                 {
                     while (!tempStack.Peek().Equals("(", StringComparison.InvariantCultureIgnoreCase))
                     {
@@ -48,12 +41,12 @@ namespace Tech_Teste_Calculator.Domain.Entities
                 }
                 else
                 {
-                    while (tempStack.Any() && IsHigherPriority(tempStack.Peek(), parseCharac))
+                    while (tempStack.Any() && IsHigherPriority(tempStack.Peek(), character))
                     {
                         outStack.Push(tempStack.Pop());
                     }
 
-                    tempStack.Push(parseCharac);
+                    tempStack.Push(character);
                 }
             }
 
