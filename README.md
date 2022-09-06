@@ -1,3 +1,3 @@
-# PeerIsland Calculator
+# Tech Calculator
 
-- Tech-Test calculator for PeerIsland
+- Tech-Test calculator project
